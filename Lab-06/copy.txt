@@ -1,0 +1,3 @@
+Hello, this is my Node.js Lab 06.
+I am learning the File System module.
+This file is used for reading and copying operations.
