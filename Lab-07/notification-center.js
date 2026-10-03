@@ -21,8 +21,9 @@ notifier.emit('newMessage', 'Priya', 'You free?');
 notifier.emit('error', new Error('Notification failed'));
 
 
-
+//neww
 
 notifier.on('userOnline', (username) => {
     console.log(`${username} is now online.`);
 });
+notifier.emit('userOnline', 'Gauri'); 
