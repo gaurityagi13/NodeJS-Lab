@@ -1,0 +1,10 @@
+Lab 07 – Reflection Notes
+Topic: EventEmitter – Event-Driven Programming
+
+**1. How does today's EventEmitter work connect to the Observer Pattern discussed in Theory Class?**
+
+EventEmitter follows the Observer Pattern because one object can notify multiple listeners when an event occurs. In this lab, we used the `emit()` method to trigger events and the `on()` method to register listeners. For example, when an order is placed, the kitchen, billing, and SMS listeners respond independently. This makes the code more organized because one event can trigger multiple actions. It also reduces the need to directly connect every part of the application.
+
+**2. Name one core Node.js API other than EventEmitter itself that is secretly built on this same pattern, and explain how you know.**
+
+The Node.js Stream API uses the EventEmitter pattern. Streams can emit events such as `data`, `end`, and `error`. A program can register listeners for these events using methods such as `.on()`. For example, when reading a file as a stream, the program can listen for incoming data chunks and for the end of the reading process. This shows how event-driven programming is used in Node.js beyond custom EventEmitter programs.
