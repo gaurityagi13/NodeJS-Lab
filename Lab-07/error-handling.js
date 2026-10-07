@@ -5,6 +5,8 @@ const risky = new EventEmitter();
 risky.emit('error', new Error('Something broke'));*/
 
 /*replace with because it broke */
+
+
 const EventEmitter = require('events');
 
 const risky = new EventEmitter();
