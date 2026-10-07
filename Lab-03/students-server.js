@@ -215,7 +215,8 @@ const items = [
     }
 ];
 
-const server = http.createServer((req, res) => {
+function handler(req, res) {
+
     res.setHeader('Content-Type', 'application/json');
 
     // Return all students
@@ -228,33 +229,43 @@ const server = http.createServer((req, res) => {
         res.end(JSON.stringify(items));
     }
 
-    // Return only BCA students using filter()
+    // Return only BCA students
     else if (req.url === '/students/course/BCA') {
-        const bcaStudents = students.filter(s => s.course === 'BCA');
+
+        const bcaStudents = students.filter(
+            s => s.course === 'BCA'
+        );
+
         res.end(JSON.stringify(bcaStudents));
     }
 
     // Return one student by ID
     else if (req.url.startsWith('/students/')) {
+
         const id = Number(req.url.split('/')[2]);
 
-        // Handle non-numeric ID
         if (isNaN(id)) {
+
             res.writeHead(400);
+
             res.end(JSON.stringify({
                 error: "Student ID must be a number"
             }));
-        } 
-        
-        else {
-            const student = students.find(s => s.id === id);
+
+        } else {
+
+            const student = students.find(
+                s => s.id === id
+            );
 
             if (student) {
+
                 res.end(JSON.stringify(student));
-            } 
-            
-            else {
+
+            } else {
+
                 res.writeHead(404);
+
                 res.end(JSON.stringify({
                     error: "Student not found"
                 }));
@@ -264,15 +275,21 @@ const server = http.createServer((req, res) => {
 
     // Return one item by ID
     else if (req.url.startsWith('/items/')) {
+
         const id = Number(req.url.split('/')[2]);
-        const item = items.find(i => i.id === id);
+
+        const item = items.find(
+            i => i.id === id
+        );
 
         if (item) {
+
             res.end(JSON.stringify(item));
-        } 
-        
-        else {
+
+        } else {
+
             res.writeHead(404);
+
             res.end(JSON.stringify({
                 error: "Item not found"
             }));
@@ -281,13 +298,31 @@ const server = http.createServer((req, res) => {
 
     // Route not found
     else {
+
         res.writeHead(404);
+
         res.end(JSON.stringify({
             error: "Route not found"
         }));
     }
-});
+}
 
-server.listen(3000, () => {
-    console.log("Server running on port 3000");
-});
+
+// Export handler for Lab-08
+module.exports = handler;
+
+
+// Run this file directly
+// only when it is executed using node students-server.js
+if (require.main === module) {
+
+    const PORT = process.env.PORT || 3000;
+
+    const server = http.createServer(handler);
+
+    server.listen(PORT, () => {
+        console.log(
+            `Server running on port ${PORT}`
+        );
+    });
+}

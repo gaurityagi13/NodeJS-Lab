@@ -18,7 +18,7 @@ const students = [
 ];
 
 // Create server
-const server = http.createServer((req, res) => {
+function handler(req, res) {
 
     // Response will be in JSON format
     res.setHeader('Content-Type', 'application/json');
@@ -142,9 +142,17 @@ const server = http.createServer((req, res) => {
             error: "Route not found"
         }));
     }
-});
+}
 
 // Start server
-server.listen(3000, () => {
-    console.log("Server running on port 3000");
-});
+module.exports = handler;
+
+if (require.main === module) {
+    const PORT = process.env.PORT || 3000;
+
+    const server = http.createServer(handler);
+
+    server.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
