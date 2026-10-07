@@ -1,6 +1,6 @@
 const http = require('http');
 
-const server = http.createServer((req, res) => {
+function handler(req, res) {
 
     if (req.url === '/') {
         res.writeHead(200, { 'Content-Type': 'text/plain' });
@@ -37,10 +37,21 @@ const server = http.createServer((req, res) => {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.end('Page Not Found');
     }
-});
+}
 
-const PORT = process.env.PORT || 3000;
 
-server.listen(PORT, () => {
-    console.log('Server is running at http://localhost:3000');
-});
+// Export the handler so Lab-08 can use it
+module.exports = handler;
+
+
+// Start the server only when this file is run directly
+if (require.main === module) {
+
+    const PORT = process.env.PORT || 3000;
+
+    const server = http.createServer(handler);
+
+    server.listen(PORT, () => {
+        console.log(`Server is running at http://localhost:${PORT}`);
+    });
+}
